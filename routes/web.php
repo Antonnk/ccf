@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/projects/{id}', 'ProjectController@show');
 Route::post('/projects/add', 'ProjectController@add');
 Route::patch('/projects/{project}', 'ProjectController@update');
+Route::get('/projects/{project}/entries', 'ProjectController@entries');
 
 Route::post('/projects/{project}/entry/start', 'EntryController@start');
 Route::post('/projects/{project}/entry/stop', 'EntryController@stop');

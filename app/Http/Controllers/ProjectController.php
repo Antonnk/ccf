@@ -36,4 +36,11 @@ class ProjectController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+    public function entries(Project $project)
+    {
+        return response()->json([
+           'entries' => $project->entries
+        ]);
+    }
 }

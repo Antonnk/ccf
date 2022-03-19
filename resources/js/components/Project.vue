@@ -36,7 +36,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <entry v-for="(entry, key) in project.entries" :key="key" :entry="entry"></entry>
+                            <entry v-for="(entry, key) in entries" :key="key" :entry="entry"></entry>
                         </tbody>
                     </table>
                 </div>
@@ -54,22 +54,29 @@ export default {
       'entry': Entry
     },
     props: ['project'],
-    data: () => ({
-        running: false
+    data: (vm) => ({
+        running: false,
+        entries: vm.$props.project.entries
     }),
     methods: {
         startTimer() {
             axios.post(`/projects/${this.project.id}/entry/start`)
                 .then(() => this.running = true)
+                .then(this.fetchEntries)
         },
         stopTimer() {
             axios.post(`/projects/${this.project.id}/entry/stop`)
                 .then(() => this.running = false)
+                .then(this.fetchEntries)
         },
         updateDetails() {
             axios.patch(`/projects/${this.$props.project.id}`, {
                 details: this.$refs.details.value
-            }).then(console.log)
+            })
+        },
+        fetchEntries() {
+            axios.get(`/projects/${this.$props.project.id}/entries`)
+                .then(res => this.entries = res.data.entries)
         }
     }
 }

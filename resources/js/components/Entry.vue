@@ -2,9 +2,7 @@
     <tr>
         <td v-text="entry.start"></td>
         <td v-text="entry.end"></td>
-        <td>
-            {{ timeSpent }}
-        </td>
+        <td v-text="timeSpent"></td>
     </tr>
 </template>
 
@@ -13,10 +11,10 @@ export default {
     name: "Entry",
     props: ['entry'],
     data: () => ({
-        now: new Date()
+        now: Date.now()
     }),
     created() {
-      setInterval(() => this.now = new Date(), 1000)
+      setInterval(() => this.now = Date.now(), 1000)
     },
     computed: {
         timeSpent() {

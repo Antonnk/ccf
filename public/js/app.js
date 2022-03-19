@@ -2058,21 +2058,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Entry",
   props: ['entry'],
   data: function data() {
     return {
-      now: new Date()
+      now: Date.now()
     };
   },
   created: function created() {
     var _this = this;
 
     setInterval(function () {
-      return _this.now = new Date();
+      return _this.now = Date.now();
     }, 1000);
   },
   computed: {
@@ -2161,9 +2159,10 @@ __webpack_require__.r(__webpack_exports__);
     'entry': _Entry__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: ['project'],
-  data: function data() {
+  data: function data(vm) {
     return {
-      running: false
+      running: false,
+      entries: vm.$props.project.entries
     };
   },
   methods: {
@@ -2172,19 +2171,26 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post("/projects/".concat(this.project.id, "/entry/start")).then(function () {
         return _this.running = true;
-      });
+      }).then(this.fetchEntries);
     },
     stopTimer: function stopTimer() {
       var _this2 = this;
 
       axios.post("/projects/".concat(this.project.id, "/entry/stop")).then(function () {
         return _this2.running = false;
-      });
+      }).then(this.fetchEntries);
     },
     updateDetails: function updateDetails() {
       axios.patch("/projects/".concat(this.$props.project.id), {
         details: this.$refs.details.value
-      }).then(console.log);
+      });
+    },
+    fetchEntries: function fetchEntries() {
+      var _this3 = this;
+
+      axios.get("/projects/".concat(this.$props.project.id, "/entries")).then(function (res) {
+        return _this3.entries = res.data.entries;
+      });
     }
   }
 });
@@ -38210,7 +38216,7 @@ var render = function() {
     _vm._v(" "),
     _c("td", { domProps: { textContent: _vm._s(_vm.entry.end) } }),
     _vm._v(" "),
-    _c("td", [_vm._v("\n        " + _vm._s(_vm.timeSpent) + "\n    ")])
+    _c("td", { domProps: { textContent: _vm._s(_vm.timeSpent) } })
   ])
 }
 var staticRenderFns = []
@@ -38341,7 +38347,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.project.entries, function(entry, key) {
+              _vm._l(_vm.entries, function(entry, key) {
                 return _c("entry", { key: key, attrs: { entry: entry } })
               }),
               1
