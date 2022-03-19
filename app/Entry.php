@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Entry extends Model
 {
     protected $fillable = [
-        'start', 'end'
+        'start', 'end', 'project_id'
     ];
 
     public function project()

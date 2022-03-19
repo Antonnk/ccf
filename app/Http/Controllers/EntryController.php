@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Entry;
+use App\Project;
+use Carbon\Carbon;
+
 class EntryController extends Controller
 {
     public function __construct()
@@ -9,13 +13,23 @@ class EntryController extends Controller
         $this->middleware('auth');
     }
 
-    public function start()
+    public function start(Project $project)
     {
-        // TODO: Implement starting new entry
+        Entry::create([
+            'start' => Carbon::now(),
+            'end' => null,
+            'project_id' => $project->getKey()
+        ]);
+
+        return response()->json(['status' => 'success']);
     }
 
-    public function stop()
+    public function stop(Project $project)
     {
-        // TODO: Implement stopping entry
+        $running_entry = $project->entries()->where('end', null)->first();
+        $running_entry->end = Carbon::now();
+        $running_entry->save();
+
+        return response()->json(['status' => 'success']);
     }
 }

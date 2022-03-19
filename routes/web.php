@@ -24,6 +24,9 @@ Route::get('/projects/{id}', 'ProjectController@show');
 Route::post('/projects/add', 'ProjectController@add');
 Route::patch('/projects/{project}', 'ProjectController@update');
 
+Route::post('/projects/{project}/entry/start', 'EntryController@start');
+Route::post('/projects/{project}/entry/stop', 'EntryController@stop');
+
 Route::fallback(function(){
     return redirect('login');
 });

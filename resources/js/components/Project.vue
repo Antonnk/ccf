@@ -28,24 +28,17 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <table class="card-table table">
-            <thead>
-                <tr>
-                    <th>Start date</th>
-                    <th>End date</th>
-                    <th>Time spent</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="entry in project.entries">
-                    <td v-text="entry.start"></td>
-                    <td v-text="entry.end"></td>
-                    <td>
-                        <!-- TODO: Calculate time spent -->
-                        0 hours
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <thead>
+                        <tr>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Time spent</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <entry v-for="(entry, key) in project.entries" :key="key" :entry="entry"></entry>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -53,20 +46,25 @@
 </template>
 
 <script>
+import Entry from "./Entry";
+
 export default {
     name: "Project",
+    components: {
+      'entry': Entry
+    },
     props: ['project'],
     data: () => ({
         running: false
     }),
     methods: {
         startTimer() {
-            this.running = true;
-            // TODO: Implement start functionality
+            axios.post(`/projects/${this.project.id}/entry/start`)
+                .then(() => this.running = true)
         },
         stopTimer() {
-            this.running = false;
-            // TODO: Implement stop functionality
+            axios.post(`/projects/${this.project.id}/entry/stop`)
+                .then(() => this.running = false)
         },
         updateDetails() {
             axios.patch(`/projects/${this.$props.project.id}`, {
