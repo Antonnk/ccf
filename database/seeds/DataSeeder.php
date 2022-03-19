@@ -21,6 +21,7 @@ class DataSeeder extends Seeder
             ]);
             DB::table('projects')->insert([
                 'name' => "Test Project",
+                'details' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae nulla vulputate, maximus lectus sit amet, hendrerit arcu. Cras elit urna, ullamcorper ut pellentesque nec, placerat sed sem. Curabitur ut nulla turpis."
             ]);
         }
     }

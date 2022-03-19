@@ -21,16 +21,19 @@ class ProjectController extends Controller
     public function add(Request $request)
     {
         Project::create([
-            'name' => $request->get('name')
+            'name' => $request->get('name'),
+            'details' => ''
         ]);
+
         return response()->json(['status' => 'success']);
     }
 
-    public function update(Request $request)
+    public function update(Project $project, Request $request)
     {
-        $project = Project::find($request->get('id'));
-        $project->name = $request->get('name');
+        $project->name = $request->get('name', $project->name);
+        $project->details = $request->get('details', $project->details);
         $project->save();
+
         return response()->json(['status' => 'success']);
     }
 }

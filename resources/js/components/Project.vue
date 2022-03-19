@@ -13,7 +13,21 @@
                 </div>
             </div>
         </div>
-        <table class="card-table table">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <textarea
+                        ref="details"
+                        v-html="project.details"
+                        v-on:keydown.meta.83.capture.prevent.stop="updateDetails"
+                        rows="20"
+                        class="w-100"
+                    ></textarea>
+                    <button type="button" class="btn btn-sm btn-primary" @click.prevent="updateDetails">Save details</button>
+                    <span class="help-text"> - or use <code>(cmd/win)+s</code> hotkey</span>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <table class="card-table table">
             <thead>
                 <tr>
                     <th>Start date</th>
@@ -32,6 +46,9 @@
                 </tr>
             </tbody>
         </table>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -50,6 +67,11 @@ export default {
         stopTimer() {
             this.running = false;
             // TODO: Implement stop functionality
+        },
+        updateDetails() {
+            axios.patch(`/projects/${this.$props.project.id}`, {
+                details: this.$refs.details.value
+            }).then(console.log)
         }
     }
 }

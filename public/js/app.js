@@ -2031,8 +2031,7 @@ __webpack_require__.r(__webpack_exports__);
       this.projectName = '';
     },
     submit: function submit() {
-      axios.post('/projects/update', {
-        id: this.project.id,
+      axios.patch("/projects/".concat(this.project.id), {
         name: this.projectName
       });
       $(this.$refs.modal).modal('hide');
@@ -2088,6 +2087,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Project",
   props: ['project'],
@@ -2102,6 +2118,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     stopTimer: function stopTimer() {
       this.running = false; // TODO: Implement stop functionality
+    },
+    updateDetails: function updateDetails() {
+      axios.patch("/projects/".concat(this.$props.project.id), {
+        details: this.$refs.details.value
+      }).then(console.log);
     }
   }
 });
@@ -38181,28 +38202,83 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("table", { staticClass: "card-table table" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.project.entries, function(entry) {
-          return _c("tr", [
-            _c("td", { domProps: { textContent: _vm._s(entry.start) } }),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-12 col-lg-6" }, [
+          _c("textarea", {
+            ref: "details",
+            staticClass: "w-100",
+            attrs: { rows: "20" },
+            domProps: { innerHTML: _vm._s(_vm.project.details) },
+            on: {
+              "!keydown": function($event) {
+                if (!$event.type.indexOf("key") && $event.keyCode !== 83) {
+                  return null
+                }
+                if (!$event.metaKey) {
+                  return null
+                }
+                $event.preventDefault()
+                $event.stopPropagation()
+                return _vm.updateDetails($event)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-sm btn-primary",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updateDetails($event)
+                }
+              }
+            },
+            [_vm._v("Save details")]
+          ),
+          _vm._v(" "),
+          _vm._m(0)
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 col-lg-6" }, [
+          _c("table", { staticClass: "card-table table" }, [
+            _vm._m(1),
             _vm._v(" "),
-            _c("td", { domProps: { textContent: _vm._s(entry.end) } }),
-            _vm._v(" "),
-            _c("td", [
-              _vm._v("\n                    0 hours\n                ")
-            ])
+            _c(
+              "tbody",
+              _vm._l(_vm.project.entries, function(entry) {
+                return _c("tr", [
+                  _c("td", { domProps: { textContent: _vm._s(entry.start) } }),
+                  _vm._v(" "),
+                  _c("td", { domProps: { textContent: _vm._s(entry.end) } }),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v("\n                    0 hours\n                ")
+                  ])
+                ])
+              }),
+              0
+            )
           ])
-        }),
-        0
-      )
+        ])
+      ])
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "help-text" }, [
+      _vm._v(" - or use "),
+      _c("code", [_vm._v("(cmd/win)+s")]),
+      _vm._v(" hotkey")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
