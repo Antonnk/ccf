@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import {secondsToHMS} from '../helpers'
+
 export default {
     name: "Entry",
     props: ['entry'],
@@ -20,17 +22,6 @@ export default {
         timeSpent() {
             const endDate = this.entry.end === null ? this.now : new Date(this.entry.end);
             const diffSeconds = (endDate - new Date(this.entry.start)) / 1000
-
-            const secondsToHMS = function (secs) {
-                function z(n) {
-                    return (n < 10 ? '0' : '') + n;
-                }
-
-                var sign = secs < 0 ? '-' : '';
-                secs = Math.abs(secs);
-                return sign + z(secs / 3600 | 0) + ':' + z((secs % 3600) / 60 | 0) + ':' + z(Math.round(secs % 60));
-            }
-
             return secondsToHMS(diffSeconds)
         }
     }
