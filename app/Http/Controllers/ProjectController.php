@@ -14,7 +14,7 @@ class ProjectController extends Controller
 
     public function show(int $projectID)
     {
-        $project = Project::with('entries')->find($projectID);
+        $project = Project::with('entries')->find($projectID)->append('is_running');
         return view('projects.show', ['project' => $project]);
     }
 

@@ -55,7 +55,7 @@ export default {
     },
     props: ['project'],
     data: (vm) => ({
-        running: false,
+        running: vm.$props.project.is_running,
         entries: vm.$props.project.entries
     }),
     methods: {

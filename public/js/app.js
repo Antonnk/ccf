@@ -2152,7 +2152,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['project'],
   data: function data(vm) {
     return {
-      running: false,
+      running: vm.$props.project.is_running,
       entries: vm.$props.project.entries
     };
   },
@@ -2199,6 +2199,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddProject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddProject */ "./resources/js/components/AddProject.vue");
 /* harmony import */ var _EditProject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditProject */ "./resources/js/components/EditProject.vue");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers */ "./resources/js/helpers.js");
 //
 //
 //
@@ -2242,9 +2243,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2260,6 +2259,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     editProject: function editProject(project) {
       this.$refs.edit.open(project);
+    },
+    secondsToHMS: function secondsToHMS(value) {
+      return Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["secondsToHMS"])(value);
     }
   }
 });
@@ -60009,9 +60011,11 @@ var render = function() {
                   domProps: { textContent: _vm._s(project.entries.length) }
                 }),
                 _vm._v(" "),
-                _c("td", [
-                  _vm._v("\n                        0\n                    ")
-                ]),
+                _c("td", {
+                  domProps: {
+                    textContent: _vm._s(_vm.secondsToHMS(project.time_spent))
+                  }
+                }),
                 _vm._v(" "),
                 _c("td", { staticClass: "text-right" }, [
                   _c(
