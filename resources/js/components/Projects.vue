@@ -26,10 +26,7 @@
                     <tr v-for="project in projects">
                         <td v-text="project.name"></td>
                         <td v-text="project.entries.length"></td>
-                        <td>
-                            <!-- TODO: Calculate total hours spent -->
-                            0
-                        </td>
+                        <td v-text="secondsToHMS(project.time_spent)"></td>
                         <td class="text-right">
                             <button type="button" class="btn btn-sm btn-dark" @click.prevent="editProject(project)">Edit</button>
                             <button type="button" class="btn btn-sm btn-danger">Delete</button>
@@ -47,6 +44,7 @@
 <script>
 import AddProject from "./AddProject";
 import EditProject from "./EditProject";
+import {secondsToHMS} from "../helpers";
 
 export default {
     name: "Projects",
@@ -61,6 +59,9 @@ export default {
         },
         editProject(project) {
             this.$refs.edit.open(project);
+        },
+        secondsToHMS(value) {
+            return secondsToHMS(value);
         }
     }
 }

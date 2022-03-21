@@ -24,7 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('entries')->get();
+        $projects = Project::with('entries')
+            ->get()
+            ->each
+            ->append('time_spent');
+
         return view('home', ['projects' => $projects]);
     }
 }
