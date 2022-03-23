@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 function secondsToHMS(secs) {
     function pad(n) {
         return (n < 10 ? '0' : '') + n;
