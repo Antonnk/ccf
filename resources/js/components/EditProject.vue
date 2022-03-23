@@ -56,7 +56,7 @@ export default {
         submit() {
             axios.patch(`/projects/${this.project.id}`, {
                 name: this.projectName
-            });
+            }).then(() => this.$emit('success'));
             $(this.$refs.modal).modal('hide');
         }
     }

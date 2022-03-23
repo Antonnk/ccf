@@ -12,9 +12,23 @@ class ProjectController extends Controller
         $this->middleware('auth');
     }
 
+    public function all() {
+        $projects = Project::with('entries')
+            ->get()
+            ->each
+            ->append('time_spent');
+
+        return response()->json(['projects' => $projects]);
+    }
+
     public function show(int $projectID)
     {
         $project = Project::with('entries')->find($projectID)->append('is_running');
+
+        if (request()->wantsJson()) {
+            return response()->json(['project' => $project]);
+        }
+
         return view('projects.show', ['project' => $project]);
     }
 
@@ -35,12 +49,5 @@ class ProjectController extends Controller
         $project->save();
 
         return response()->json(['status' => 'success']);
-    }
-
-    public function entries(Project $project)
-    {
-        return response()->json([
-           'entries' => $project->entries
-        ]);
     }
 }

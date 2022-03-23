@@ -36,8 +36,8 @@
                 </tbody>
             </table>
         </div>
-        <add-project ref="add"></add-project>
-        <edit-project ref="edit"></edit-project>
+        <add-project ref="add" @success="fetchProjects"></add-project>
+        <edit-project ref="edit" @success="fetchProjects"></edit-project>
     </div>
 </template>
 
@@ -52,7 +52,13 @@ export default {
         'add-project': AddProject,
         'edit-project': EditProject
     },
-    props: ['projects'],
+    props: ['init-projects'],
+    data: () => ({
+        projects: []
+    }),
+    created() {
+      this.projects = this.initProjects
+    },
     methods: {
         addProject() {
             this.$refs.add.open();
@@ -62,6 +68,10 @@ export default {
         },
         secondsToHMS(value) {
             return secondsToHMS(value);
+        },
+        fetchProjects() {
+            axios.get(`/projects`)
+                .then(res => this.projects = res.data.projects)
         }
     }
 }

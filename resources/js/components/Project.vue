@@ -75,8 +75,8 @@ export default {
             })
         },
         fetchEntries() {
-            axios.get(`/projects/${this.$props.project.id}/entries`)
-                .then(res => this.entries = res.data.entries)
+            axios.get(`/projects/${this.$props.project.id}`)
+                .then(res => this.entries = res.data.project.entries)
         }
     }
 }
